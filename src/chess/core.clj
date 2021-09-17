@@ -4,7 +4,7 @@
    [hiccup.page :as page])
   (:gen-class))
 
-(defn events [request]
+(defn homepage [request]
   {:status 200
    :body
    (page/html5
@@ -14,7 +14,7 @@
 
 (defn start-app [config]
   (run-jetty
-   events
+   homepage
    config))
 
 (defn -main [& args]
