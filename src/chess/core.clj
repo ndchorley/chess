@@ -1,21 +1,15 @@
 (ns chess.core
   (:require
    [ring.adapter.jetty :refer [run-jetty]]
-   [hiccup.page :as page])
+   [compojure.core :refer :all]
+   [chess.routes :refer :all])
   (:gen-class))
 
-(defn homepage [request]
-  {:status 200
-   :body
-   (page/html5
-    [:body
-     [:a {:href "/events"} "Events"]])
-   })
+(defroutes app
+  (GET "/" [] (homepage)))
 
 (defn start-app [config]
-  (run-jetty
-   homepage
-   config))
+  (run-jetty app config))
 
 (defn -main [& args]
   (start-app

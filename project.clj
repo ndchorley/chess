@@ -3,7 +3,8 @@
                 [ring/ring-core "1.9.4"]
                 [ring/ring-jetty-adapter "1.9.4"]
                 [org.jsoup/jsoup "1.14.2"]
-                [hiccup "1.0.5"]]
+                [hiccup "1.0.5"]
+                [compojure "1.6.2"]]
   :plugins [[cider/cider-nrepl "0.26.0"]]
   :javac-options ["-target" "17" "-source" "17"]
   :min-lein-version "2.0.0"
