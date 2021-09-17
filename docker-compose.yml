@@ -1,0 +1,10 @@
+version: '3'
+services:
+  nrepl:
+    image: clojure:openjdk-17-lein-2.9.6
+    volumes:
+      - .:/work
+    working_dir: /work
+    entrypoint: ["lein", "repl", ":headless", ":host", "0.0.0.0", ":port", "9000"]
+    ports:
+      - "9000:9000"
