@@ -12,13 +12,15 @@
      [:a {:href "/events"} "Events"]])
    })
 
-(defn start-app [port join?]
+(defn start-app [config]
   (run-jetty
    events
-   {:port port :join? join?}))
+   config))
 
 (defn -main [& args]
   (start-app
-   (Integer/parseInt
-    (System/getenv "PORT"))
-   true))
+   {:port
+    (Integer/parseInt
+     (System/getenv "PORT"))
+    :join?
+    true}))

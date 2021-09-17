@@ -4,7 +4,7 @@
   (:import org.jsoup.Jsoup))
 
 (defn setup [test]
-  (start-app 9400 false)
+  (start-app {:port 9400 :join? false})
   (test))
 
 (use-fixtures :once setup)
@@ -19,7 +19,6 @@
 
     (is
      (= (url link) "/events"))))
-
 
 (defn page [url]
   (.get (Jsoup/connect url)))
