@@ -5,6 +5,8 @@
                 [org.jsoup/jsoup "1.14.2"]
                 [hiccup "1.0.5"]]
   :plugins [[cider/cider-nrepl "0.26.0"]]
+  :javac-options ["-target" "17" "-source" "17"]
+  :min-lein-version "2.0.0"
   :main ^:skip-aot chess.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all

@@ -17,5 +17,8 @@
    events
    {:port port :join? join?}))
 
-(defn -main
-  [& args])
+(defn -main [& args]
+  (start-app
+   (Integer/parseInt
+    (System/getenv "PORT"))
+   true))
