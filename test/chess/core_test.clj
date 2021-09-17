@@ -11,7 +11,7 @@
 
 (declare page links url)
 
-(deftest the-user-sees-a-link-to-the-events-page
+(deftest the-homepage-links-to-the-events-page
   (let [link (first (links (page "http://localhost:9400/")))]
     (is
      (=
