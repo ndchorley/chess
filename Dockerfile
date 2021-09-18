@@ -4,6 +4,8 @@ COPY . /work
 
 WORKDIR /work
 
+RUN ./build.sh
+
 EXPOSE $PORT
 
 CMD ./run.sh
