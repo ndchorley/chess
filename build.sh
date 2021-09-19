@@ -3,5 +3,5 @@
 set -e
 
 lein clean
-lein test
+lein eftest
 lein uberjar
