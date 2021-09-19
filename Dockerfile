@@ -6,6 +6,8 @@ WORKDIR /work
 
 RUN ./build.sh
 
+RUN mkdir /events
+
 EXPOSE $PORT
 
 CMD ./run.sh
