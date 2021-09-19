@@ -8,7 +8,6 @@
 (def events-directory (create-directory))
 
 (defn setup [test]
-  (println events-directory)
   (start-app
    {:port 9400 :join? false :events-directory events-directory})
   (test))
