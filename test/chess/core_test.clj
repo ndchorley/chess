@@ -1,10 +1,16 @@
 (ns chess.core-test
-  (:require [clojure.test :refer :all]
-            [chess.core :refer :all]
-            [chess.page :refer :all]))
+  (:require
+   [clojure.test :refer :all]
+   [chess.core :refer :all]
+   [chess.page :refer :all]
+   [chess.setup :refer :all]))
+
+(def events-directory (create-directory))
 
 (defn setup [test]
-  (start-app {:port 9400 :join? false})
+  (println events-directory)
+  (start-app
+   {:port 9400 :join? false :events-directory events-directory})
   (test))
 
 (use-fixtures :once setup)
@@ -17,3 +23,19 @@
 
     (is
      (= (url link) "/events"))))
+
+(deftest the-events-page-lists-events-by-date-descending
+  (create-event
+   events-directory
+   "richmond-rapidplay-2019-10-05")
+  (create-event
+   events-directory
+   "golders-green-rapidplay-2021-08-14")
+
+  (let [events
+        (text (links (page "http://localhost:9400/events")))]
+
+    (is
+     (= events
+        ["Golders Green Rapidplay, 14 August 2021"
+         "Richmond Rapidplay, 5 October 2019"]))))

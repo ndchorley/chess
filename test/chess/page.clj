@@ -10,3 +10,7 @@
 (defn url [link]
   (.attr link "href"))
 
+(defn text [links]
+  (map
+   (fn [link] (.text link))
+   links))
