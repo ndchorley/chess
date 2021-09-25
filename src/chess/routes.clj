@@ -2,8 +2,7 @@
   (:require
    [hiccup.page :as page]
    [clojure.string :as str]
-   [java-time]
-   [chess.events :refer :all])
+   [java-time])
   (:import java.io.File))
 
 (declare links link-text)
@@ -13,12 +12,9 @@
    [:body
     [:a {:href "/events"} "Events"]]))
 
-(defn events-page [events-directory]
-  (let [events
-        (find-events events-directory)]
-
-    (page/html5
-     [:body (links events)])))
+(defn events-page [events]
+  (page/html5
+   [:body (links (events))]))
 
 
 (defn links [events]
