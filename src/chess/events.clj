@@ -12,7 +12,10 @@
         (file-names
          (.listFiles
           (new File events-directory)))]
-    (events directories)))
+    (reverse
+     (sort-by
+      :date
+      (events directories)))))
 
 (defn events [directories]
   (map as-event directories))

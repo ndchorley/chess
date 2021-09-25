@@ -15,10 +15,7 @@
 
 (defn events-page [events-directory]
   (let [events
-        (reverse
-         (sort-by
-          :date
-          (find-events events-directory)))]
+        (find-events events-directory)]
 
     (page/html5
      [:body (links events)])))
