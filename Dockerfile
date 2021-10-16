@@ -8,6 +8,7 @@ WORKDIR /work
 
 RUN ./build.sh
 
+ARG GIT_REPO_URL
 RUN echo $GIT_REPO_URL
 
 EXPOSE $PORT
