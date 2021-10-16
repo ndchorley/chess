@@ -8,7 +8,7 @@ WORKDIR /work
 
 RUN ./build.sh
 
-RUN git clone $GIT_REPO_URL /events
+RUN echo $GIT_REPO_URL
 
 EXPOSE $PORT
 
