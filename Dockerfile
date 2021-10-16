@@ -9,7 +9,7 @@ WORKDIR /work
 RUN ./build.sh
 
 ARG GIT_REPO_URL
-RUN echo $GIT_REPO_URL
+RUN git clone $GIT_REPO_URL /events
 
 EXPOSE $PORT
 
