@@ -16,12 +16,9 @@
 
 (deftest the-homepage-links-to-the-events-page
   (let [link (first (links (page "http://localhost:9400/")))]
-    (is
-     (=
-      (.text link) "Events"))
+    (is (= (.text link) "Events"))
 
-    (is
-     (= (url link) "/events"))))
+    (is (= (url link) "/events"))))
 
 (deftest the-events-page-lists-events-by-date-descending
   (create-event
@@ -35,6 +32,7 @@
         (text (links (page "http://localhost:9400/events")))]
 
     (is
-     (= events
-        ["Golders Green Rapidplay, 14 August 2021"
-         "Richmond Rapidplay, 5 October 2019"]))))
+     (=
+      events
+      ["Golders Green Rapidplay, 14 August 2021"
+       "Richmond Rapidplay, 5 October 2019"]))))
