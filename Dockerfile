@@ -1,6 +1,6 @@
 FROM clojure:openjdk-17-lein-2.9.6
 
-RUN apt-get update && apt-get install git
+RUN apt-get update && apt-get -y install git
 
 COPY . /work
 
