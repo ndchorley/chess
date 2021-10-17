@@ -13,4 +13,6 @@
   :main ^:skip-aot chess.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all
-                       :jvm-opts ["-Dclojure.compiler.direct-linking=true"]}})
+                       :jvm-opts ["-Dclojure.compiler.direct-linking=true"]}}
+
+  :eftest {:multithread? false})
