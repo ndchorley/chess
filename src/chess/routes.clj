@@ -19,7 +19,10 @@
 
 (defn links [events]
   (map
-   (fn [event] [:a (link-text event)])
+   (fn [event]
+     [:a
+      {:href (str "/events/" (event :slug))}
+      (link-text event)])
    events))
 
 (defn link-text [event]

@@ -3,7 +3,8 @@
    java.nio.file.Files
    java.nio.file.attribute.PosixFilePermission
    java.nio.file.attribute.PosixFilePermissions
-   java.nio.file.Path))
+   java.nio.file.Path
+   java.io.File))
 
 (declare posix-file-permissions)
 
@@ -23,3 +24,8 @@
   (into-array
    [(PosixFilePermissions/asFileAttribute
      (into #{} (PosixFilePermission/values)))]))
+
+(defn there-are-no-events [events-directory]
+  (run!
+   (fn [file] (.delete file))
+   (.listFiles (new File events-directory))))

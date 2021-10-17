@@ -25,7 +25,8 @@
         (str/split directory #"-")]
 
     {:name (event-name (drop-last 3 parts))
-     :date (event-date (take-last 3 parts))}))
+     :date (event-date (take-last 3 parts))
+     :slug directory}))
 
 (defn file-names [files]
   (map (fn [file] (.getName file)) files))
