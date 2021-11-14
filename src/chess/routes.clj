@@ -1,9 +1,9 @@
 (ns chess.routes
   (:require
+   [compojure.core :refer :all]
    [hiccup.page :as page]
    [clojure.string :as str]
-   [java-time])
-  (:import java.io.File))
+   [java-time]))
 
 (declare links link-text)
 
@@ -16,6 +16,26 @@
   (page/html5
    [:body (links (events))]))
 
+
+(defn timeline [games]
+  (GET
+   "/timeline"
+   []
+   (page/html5
+    [:body
+     (map
+      (fn [game]
+        [:div
+         [:div
+          {:class "date"}
+          (java-time/format "d MMMM uuuu" (game :date))]
+
+         [:div
+          {:class "game"}
+          [:div {:class "white"} (game :white)]
+          [:div {:class "result"} (game :result)]
+          [:div {:class "black"} (game :black)]]])
+      (games))])))
 
 (defn links [events]
   (map
