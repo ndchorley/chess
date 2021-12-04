@@ -42,6 +42,23 @@
      "champions"
      "capablanca")
 
+    (add-game
+     (string/join
+      "\n"
+      [
+       "[Event \"Harrow Swiss\"]"
+       "[Date \"2021.11.25\"]"
+       "[White \"James Lyons\"]"
+       "[Black \"Nicky Chorley\"]"
+       "[Result \"1/2-1/2\"]"
+       "1. d4 d5 2. e4 e6 3. exd5 exd5 *"]
+      )
+     "r2-lyons.pgn"
+     directory
+     "mine"
+     "harrow-swiss"
+     "2021")
+
     (let [games (filesystem/games-in directory)]
       (is
        (=
@@ -55,7 +72,12 @@
           {:white "Capablanca"
            :black "Shipley"
            :date (java-time/local-date 1924 10 11)
-           :result :white-won}})))))
+           :result :white-won}
+
+          {:white "James Lyons"
+           :black "Nicky Chorley"
+           :date (java-time/local-date 2021 11 25)
+           :result :draw}})))))
 
 (defn- add-game [pgn-text file-name directory & subdirectories]
   (let [file

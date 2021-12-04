@@ -32,7 +32,8 @@
 (defn- parse-result [result]
   (cond
     (= result GameResult/WHITE_WON) :white-won
-    (= result GameResult/BLACK_WON) :black-won))
+    (= result GameResult/BLACK_WON) :black-won
+    (= result GameResult/DRAW) :draw))
 
 (defn parse-date [date]
   (java-time/local-date "yyyy.MM.dd" date))
