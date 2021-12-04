@@ -19,12 +19,12 @@
            #{
              {:white "Nicky Chorley"
               :black "David Walker"
-              :result "0-1"
+              :result :black-won
               :date (java-time/local-date 2021 10 5)}
 
              {:white "Patrick Sartain"
               :black "Nicky Chorley"
-              :result "1-0"
+              :result :white-won
               :date (java-time/local-date 2021 10 12)}}))
 
         timeline (page

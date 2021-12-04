@@ -5,7 +5,7 @@
    [clojure.string :as str]
    [java-time]))
 
-(declare links link-text)
+(declare links link-text result-text)
 
 (defn homepage []
   (page/html5
@@ -33,11 +33,13 @@
          [:div
           {:class "game"}
           [:div {:class "white"} (game :white)]
-          [:div {:class "result"} (game :result)]
+          [:div
+           {:class "result"}
+           (result-text (game :result))]
           [:div {:class "black"} (game :black)]]])
       (games))])))
 
-(defn links [events]
+(defn- links [events]
   (map
    (fn [event]
      [:a
@@ -45,10 +47,15 @@
       (link-text event)])
    events))
 
-(defn link-text [event]
+(defn- link-text [event]
   (str/join
    ", "
    [(event :name)
     (java-time/format
      "d MMMM uuuu"
      (event :date))]))
+
+(defn result-text [result]
+  (cond
+    (= result :white-won) "1-0"
+    (= result :black-won) "0-1"))
