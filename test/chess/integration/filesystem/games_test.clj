@@ -29,8 +29,7 @@
     (add-game
      (string/join
       "\n"
-      [
-       "[Event \"Simul\"]"
+      ["[Event \"Simul\"]"
        "[Date \"1924.10.11\"]"
        "[White \"Capablanca\"]"
        "[Black \"Shipley\"]"
@@ -45,8 +44,7 @@
     (add-game
      (string/join
       "\n"
-      [
-       "[Event \"Harrow Swiss\"]"
+      ["[Event \"Harrow Swiss\"]"
        "[Date \"2021.11.25\"]"
        "[White \"James Lyons\"]"
        "[Black \"Nicky Chorley\"]"

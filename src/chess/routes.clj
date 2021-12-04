@@ -55,7 +55,7 @@
      "d MMMM uuuu"
      (event :date))]))
 
-(defn result-text [result]
+(defn- result-text [result]
   (cond
     (= result :white-won) "1-0"
     (= result :black-won) "0-1"))
