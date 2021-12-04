@@ -7,7 +7,7 @@
    [chess.filesystem :as filesystem]
    [java-time]))
 
-(declare add-game in?)
+(declare add-game)
 
 (deftest
   games-are-found-at-all-levels-within-the-configured-directory
@@ -44,22 +44,18 @@
 
     (let [games (filesystem/games-in directory)]
       (is
-       (in?
-        games
-        {:white "Carlsen" :black "Aronian"
-         :date (java-time/local-date 2021 10 3)
-         :result :black-won
-         })
-       (str "Games: " games))
+       (=
+        (into #{} games)
+        #{
+          {:white "Carlsen"
+           :black "Aronian"
+           :date (java-time/local-date 2021 10 3)
+           :result :black-won}
 
-      (is
-       (in?
-        games
-        {:white "Capablanca" :black "Shipley"
-         :date (java-time/local-date 1924 10 11)
-         :result :white-won
-         })
-       (str "Games: " games)))))
+          {:white "Capablanca"
+           :black "Shipley"
+           :date (java-time/local-date 1924 10 11)
+           :result :white-won}})))))
 
 (defn- add-game [pgn-text file-name directory & subdirectories]
   (let [file
@@ -68,6 +64,3 @@
          (concat (conj subdirectories directory) [file-name]))]
     (io/make-parents file)
     (spit file pgn-text)))
-
-(defn- in? [collection item]
-  (some? (some (partial = item) collection)))
