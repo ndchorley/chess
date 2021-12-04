@@ -58,4 +58,5 @@
 (defn- result-text [result]
   (cond
     (= result :white-won) "1-0"
-    (= result :black-won) "0-1"))
+    (= result :black-won) "0-1"
+    (= result :draw) "1/2-1/2"))

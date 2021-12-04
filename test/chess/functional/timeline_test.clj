@@ -9,7 +9,7 @@
    [java-time])
   (:import org.jsoup.Jsoup))
 
-(declare page dates games white black result)
+(declare page dates games white black result third)
 
 (deftest the-timeline-lists-games-by-date-descending
   (let [timeline-handler
@@ -25,7 +25,12 @@
              {:white "Patrick Sartain"
               :black "Nicky Chorley"
               :result :white-won
-              :date (java-time/local-date 2021 10 12)}}))
+              :date (java-time/local-date 2021 10 12)}
+
+             {:white "James Lyons"
+              :black "Nicky Chorley"
+              :result :draw
+              :date (java-time/local-date 2021 10 1)}}))
 
         timeline (page
                   (timeline-handler (mock/request :get "/timeline")))]
@@ -38,7 +43,12 @@
     (is (= "5 October 2021" (second (dates timeline))))
     (is (= "Nicky Chorley" (white (second (games timeline)))))
     (is (= "0-1" (result (second (games timeline)))))
-    (is (= "David Walker" (black (second (games timeline)))))))
+    (is (= "David Walker" (black (second (games timeline)))))
+
+    (is (= "1 October 2021" (third (dates timeline))))
+    (is (= "James Lyons" (white (third (games timeline)))))
+    (is (= "1/2-1/2" (result (third (games timeline)))))
+    (is (= "Nicky Chorley" (black (third (games timeline)))))))
 
 (defn- page [response]
   (Jsoup/parse (response :body)))
@@ -59,3 +69,6 @@
 
 (defn- result [game]
   (.text (.selectFirst game ".result")))
+
+(defn- third [collection]
+  (nth collection 2))
