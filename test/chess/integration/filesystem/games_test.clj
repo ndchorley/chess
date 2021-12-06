@@ -1,13 +1,11 @@
 (ns chess.integration.filesystem.games-test
   (:require
-   [clojure.java.io :as io]
    [clojure.string :as string]
    [clojure.test :refer :all]
    [chess.setup :refer :all]
    [chess.filesystem :as filesystem]
+   [chess.contracts.games]
    [java-time]))
-
-(declare add-game)
 
 (deftest
   games-are-found-at-all-levels-within-the-configured-directory
@@ -77,10 +75,30 @@
            :date (java-time/local-date 2021 11 25)
            :result :draw}})))))
 
-(defn- add-game [pgn-text file-name directory & subdirectories]
-  (let [file
-        (apply
-         io/file
-         (concat (conj subdirectories directory) [file-name]))]
-    (io/make-parents file)
-    (spit file pgn-text)))
+(let [games-directory (create-directory)]
+  (add-game
+   (string/join
+    "\n"
+    ["[Event \"U20 World Championship\"]"
+     "[Date \"1984.08.06\"]"
+     "[White \"Anand\"]"
+     "[Black \"Dreev\"]"
+     "[Result \"1/2-1/2\"]"
+     "1.e4 e6 2.d4 d5 3.Nd2 Nf6 4.e5 Nfd7 *"])
+   "anand-dreev.pgn"
+   games-directory)
+
+  (add-game
+   (string/join
+    "\n"
+    ["[Event \"Meltwater\"]"
+     "[Date \"2021.10.03\"]"
+     "[White \"Carlsen\"]"
+     "[Black \"Aronian\"]"
+     "[Result \"0-1\"]"
+     "1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. a3 Bxc3+ 5. bxc3 b6 *"])
+   "carlsen-aronian.pgn"
+   games-directory)
+
+  (chess.contracts.games/games-are-returned-by-date-descending-from
+   (partial filesystem/games-in games-directory)))

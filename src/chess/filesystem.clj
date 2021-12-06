@@ -9,16 +9,18 @@
 (declare find-games parse-game parse-result parse-date)
 
 (defn games-in [directory]
-  (flatten (find-games directory)))
+  (let [games (find-games directory)]
+    (sort-by :date java-time/after? games)))
 
 (defn- find-games [directory]
     (let [files (.listFiles (io/file directory))]
-      (map
-       (fn [file]
-         (if (.isFile file)
-           (parse-game file)
-           (find-games (.getAbsolutePath file))))
-       files)))
+      (flatten
+       (map
+        (fn [file]
+          (if (.isFile file)
+            (parse-game file)
+            (find-games (.getAbsolutePath file))))
+        files))))
 
 (defn- parse-game [file]
   (let [holder (new PgnHolder (.getAbsolutePath file))]

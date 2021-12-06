@@ -1,4 +1,5 @@
 (ns chess.setup
+  (:require [clojure.java.io :as io])
   (:import
    java.nio.file.Files
    java.nio.file.attribute.PosixFilePermission
@@ -29,3 +30,12 @@
   (run!
    (fn [file] (.delete file))
    (.listFiles (new File events-directory))))
+
+
+(defn add-game [pgn-text file-name directory & subdirectories]
+  (let [file
+        (apply
+         io/file
+         (concat (conj subdirectories directory) [file-name]))]
+    (io/make-parents file)
+    (spit file pgn-text)))
