@@ -5,32 +5,55 @@
    [ring.mock.request :as mock]
    [chess.core :refer :all]
    [chess.routes :as routes]
-   [chess.fake.in-memory-games :refer :all]
+   [chess.filesystem :refer :all]
+   [chess.setup :refer :all]
    [java-time])
   (:import org.jsoup.Jsoup))
 
 (declare page dates games white black result third)
 
+(def games-directory (create-directory))
+
 (deftest the-timeline-lists-games-by-date-descending
+  (add-game
+   (string/join
+    "\n"
+    ["[Event \"Harrow Swiss\"]"
+     "[Date \"2021.10.05\"]"
+     "[White \"Nicky Chorley\"]"
+     "[Black \"David Walker\"]"
+     "[Result \"0-1\"]"
+     "1. d4 d5 2. c4 c6 *"])
+   "chorley-walker.pgn"
+   games-directory)
+
+  (add-game
+   (string/join
+    "\n"
+    ["[Event \"Harrow Swiss\"]"
+     "[Date \"2021.10.12\"]"
+     "[White \"Patrick Sartain\"]"
+     "[Black \"Nicky Chorley\"]"
+     "[Result \"1-0\"]"
+     "1. e4 e6 2. d4 d5 *"])
+   "sartain-chorley.pgn"
+   games-directory)
+
+  (add-game
+   (string/join
+    "\n"
+    ["[Event \"Harrow Swiss\"]"
+     "[Date \"2021.10.01\"]"
+     "[White \"James Lyons\"]"
+     "[Black \"Nicky Chorley\"]"
+     "[Result \"1/2-1/2\"]"
+     "1. d4 d5 2. e4 e6*"])
+   "lyons-chorley.pgn"
+   games-directory)
+
   (let [timeline-handler
         (routes/timeline
-         (partial
-          get-games
-           #{
-             {:white "Nicky Chorley"
-              :black "David Walker"
-              :result :black-won
-              :date (java-time/local-date 2021 10 5)}
-
-             {:white "Patrick Sartain"
-              :black "Nicky Chorley"
-              :result :white-won
-              :date (java-time/local-date 2021 10 12)}
-
-             {:white "James Lyons"
-              :black "Nicky Chorley"
-              :result :draw
-              :date (java-time/local-date 2021 10 1)}}))
+         (partial games-in games-directory))
 
         timeline (page
                   (timeline-handler (mock/request :get "/timeline")))]
