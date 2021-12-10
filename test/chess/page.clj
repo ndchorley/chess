@@ -14,3 +14,6 @@
   (map
    (fn [link] (.text link))
    links))
+
+(defn title [page]
+  (.text (.selectFirst page "title")))

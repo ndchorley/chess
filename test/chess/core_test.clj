@@ -10,7 +10,8 @@
 
 (defn setup [test]
   (start-app
-   {:port 9400 :join? false :events-directory events-directory})
+   {:port 9400 :join? false :events-directory events-directory
+    :games-directory events-directory})
   (test))
 
 (use-fixtures :once setup)
@@ -49,3 +50,9 @@
 
   (let [link (first (links (page "http://localhost:9400/events")))]
     (is (= (url link) "/events/docklands-rapidplay-2021-09-30"))))
+
+(deftest the-timeline-is-reachable
+  (is
+   (=
+    (title (page "http://localhost:9400/timeline"))
+    "Timeline")))
