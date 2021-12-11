@@ -1,5 +1,6 @@
 (ns chess.integration.filesystem.games-test
   (:require
+   [clojure.java.io :as io]
    [clojure.string :as string]
    [clojure.test :refer :all]
    [chess.setup :refer :all]
@@ -7,10 +8,12 @@
    [chess.contracts.games]
    [java-time]))
 
+(declare add-file)
+
 (deftest
   games-are-found-at-all-levels-within-the-configured-directory
 
-  (let [directory (create-directory)]
+  (let [games-directory (create-directory)]
     (add-game
      (string/join
       "\n"
@@ -22,7 +25,7 @@
        "1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. a3 Bxc3+ 5. bxc3 b6 *"]
       )
      "carlsen-aronian.pgn"
-     directory)
+     games-directory)
 
     (add-game
      (string/join
@@ -35,7 +38,7 @@
        "1. e4 e6 2. d4 d5 3. Nc3 Nf6 4. Bg5 Bb4 *"]
       )
      "endgame-vs-shipley.pgn"
-     directory
+     games-directory
      "champions"
      "capablanca")
 
@@ -50,12 +53,12 @@
        "1. d4 d5 2. e4 e6 3. exd5 exd5 *"]
       )
      "r2-lyons.pgn"
-     directory
+     games-directory
      "mine"
      "harrow-swiss"
      "2021")
 
-    (let [games (filesystem/games-in directory)]
+    (let [games (filesystem/games-in games-directory)]
       (is
        (=
         (into #{} games)
@@ -102,3 +105,19 @@
 
   (chess.contracts.games/games-are-returned-by-date-descending-from
    (partial filesystem/games-in games-directory)))
+
+(deftest files-without-a-pgn-extension-are-ignored
+  (let [games-directory (create-directory)]
+    (add-file
+     "8/8/8/5N1p/8/6pk/8/5K2 w - - 0 1"
+     "r4-fenton.fen"
+     games-directory)
+
+    (is
+     (=
+      (filesystem/games-in games-directory)
+      []))))
+
+(defn- add-file [contents file-name directory]
+  (let [file (io/file directory file-name)]
+    (spit file contents)))
