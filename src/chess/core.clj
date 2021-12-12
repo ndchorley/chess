@@ -21,6 +21,7 @@
   (run-jetty (create-app config) config))
 
 (defn -main [& args]
+  (println (System/getenv "GAMES_DIRECTORY"))
   (start-app
    {:port (Integer/parseInt (System/getenv "PORT"))
     :join? true
