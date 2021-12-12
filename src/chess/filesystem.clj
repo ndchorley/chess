@@ -15,14 +15,15 @@
     (sort-by :date java-time/after? games)))
 
 (defn- find-games [directory]
-    (let [files (.listFiles (io/file directory))]
-      (flatten
-       (map
-        (fn [file]
-          (if (pgn? file)
-            (parse-game file)
-            (find-games (.getAbsolutePath file))))
-        files))))
+  (println (.toString (io/file directory)))
+  (let [files (.listFiles (io/file directory))]
+    (flatten
+     (map
+      (fn [file]
+        (if (pgn? file)
+          (parse-game file)
+          (find-games (.getAbsolutePath file))))
+      files))))
 
 (defn- parse-game [file]
   (let [holder (new PgnHolder (.getAbsolutePath file))]
