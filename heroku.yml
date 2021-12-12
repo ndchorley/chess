@@ -6,3 +6,4 @@ build:
 setup:
   config:
     EVENTS_DIRECTORY: /events
+    GAMES_DIRECTORY: /events
