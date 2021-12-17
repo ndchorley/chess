@@ -59,16 +59,19 @@
                   (timeline-handler (mock/request :get "/timeline")))]
 
     (is (= "12 October 2021" (first (dates timeline))))
+
     (is (= "Patrick Sartain" (white (first (games timeline)))))
     (is (= "1-0" (result (first (games timeline)))))
     (is (= "Nicky Chorley" (black (first (games timeline)))))
 
     (is (= "5 October 2021" (second (dates timeline))))
+
     (is (= "Nicky Chorley" (white (second (games timeline)))))
     (is (= "0-1" (result (second (games timeline)))))
     (is (= "David Walker" (black (second (games timeline)))))
 
     (is (= "1 October 2021" (third (dates timeline))))
+
     (is (= "James Lyons" (white (third (games timeline)))))
     (is (= "1/2-1/2" (result (third (games timeline)))))
     (is (= "Nicky Chorley" (black (third (games timeline)))))))
