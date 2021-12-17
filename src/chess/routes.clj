@@ -41,7 +41,7 @@
           {:class "container"}
           [:div
            {:class "row date"}
-           [:h3 (java-time/format "d MMMM uuuu" (game :date))]]
+           [:h4 (java-time/format "d MMMM uuuu" (game :date))]]
 
           [:div
            {:class "row game"}
