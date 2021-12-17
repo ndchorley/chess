@@ -21,10 +21,6 @@
   (run-jetty (create-app config) config))
 
 (defn -main [& args]
-  (run!
-   #(println (str % ": " (System/getenv %)))
-   ["EVENTS_DIRECTORY" "GAMES_DIRECTORY"])
-
   (start-app
    {:port (Integer/parseInt (System/getenv "PORT"))
     :join? true

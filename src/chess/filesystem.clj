@@ -15,8 +15,6 @@
     (sort-by :date java-time/after? games)))
 
 (defn- find-games [directory]
-  (println directory)
-  (println (.getName (io/file directory)))
   (let [files (.listFiles (io/file directory))]
     (flatten
      (map
