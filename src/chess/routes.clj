@@ -22,7 +22,8 @@
    "/timeline"
    []
    (page/html5
-    [:title "Timeline"]
+    [:head
+     [:title "Timeline"]]
     [:body
      [:div [:h1 "Timeline"]]
      (map
