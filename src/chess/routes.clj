@@ -24,6 +24,7 @@
    (page/html5
     [:title "Timeline"]
     [:body
+     [:div [:h1 "Timeline"]]
      (map
       (fn [game]
         [:div
