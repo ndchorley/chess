@@ -31,7 +31,8 @@
       {:white (.getName (.getWhitePlayer game))
        :black (.getName (.getBlackPlayer game))
        :result (parse-result (.getResult game))
-       :date (parse-date (.getDate game))})))
+       :date (parse-date (.getDate game))
+       :round (.getNumber (.getRound game))})))
 
 (defn- parse-result [result]
   (cond

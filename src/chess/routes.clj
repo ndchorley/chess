@@ -5,7 +5,8 @@
    [clojure.string :as str]
    [java-time]))
 
-(declare links link-text result-text)
+(declare
+ links link-text result-text date-sections game-rows)
 
 (defn homepage []
   (page/html5
@@ -34,23 +35,36 @@
      [:title "Timeline"]]
     [:body
      [:div [:h1 "Timeline"]]
-     (map
-      (fn [game]
-        [:div
-         [:div
-          {:class "container"}
-          [:div
-           {:class "row date"}
-           [:h4 (java-time/format "d MMMM uuuu" (game :date))]]
+     [:div
+      {:class "container"}
 
-          [:div
-           {:class "row game"}
-           [:div {:class "col white"} (game :white)]
-           [:div
-            {:class "col result"}
-            (result-text (game :result))]
-           [:div {:class "col black"} (game :black)]]]])
-      (games))])))
+      (let [games-by-date (group-by :date (games))]
+        (date-sections games-by-date))]])))
+
+(defn- date-sections [games-by-date]
+  (let [dates (sort java-time/after? (keys games-by-date))]
+    (map
+     (fn [date]
+       [:div
+        [:div
+         {:class "row date"}
+         [:h4 (java-time/format "d MMMM uuuu" date)]]
+
+        (game-rows (games-by-date date))])
+     dates)))
+
+(defn game-rows [games]
+  (let [sorted-by-round (sort-by :round > games)]
+    (map
+     (fn [game]
+       [:div
+        {:class "row game"}
+        [:div {:class "col white"} (game :white)]
+        [:div
+         {:class "col result"}
+         (result-text (game :result))]
+        [:div {:class "col black"} (game :black)]])
+     sorted-by-round)))
 
 (defn- links [events]
   (map

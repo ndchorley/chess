@@ -66,17 +66,20 @@
           {:white "Carlsen"
            :black "Aronian"
            :date (java-time/local-date 2021 10 3)
-           :result :black-won}
+           :result :black-won
+           :round 1}
 
           {:white "Capablanca"
            :black "Shipley"
            :date (java-time/local-date 1924 10 11)
-           :result :white-won}
+           :result :white-won
+           :round 1}
 
           {:white "James Lyons"
            :black "Nicky Chorley"
            :date (java-time/local-date 2021 11 25)
-           :result :draw}})))))
+           :result :draw
+           :round 1}})))))
 
 (let [games-directory (create-directory)]
   (add-game
