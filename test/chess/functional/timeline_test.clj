@@ -10,43 +10,40 @@
    [java-time])
   (:import org.jsoup.Jsoup))
 
-(declare page dates games white black result third)
+(declare
+ page dates games white black result third
+ a-game played-on between-white and-black
+ with-result as-pgn in-round)
 
 (deftest the-timeline-lists-games-by-date-descending
   (let [games-directory (create-directory)]
     (add-game
-     (string/join
-      "\n"
-      ["[Event \"Harrow Swiss\"]"
-       "[Date \"2021.10.05\"]"
-       "[White \"Nicky Chorley\"]"
-       "[Black \"David Walker\"]"
-       "[Result \"0-1\"]"
-       "1. d4 d5 2. c4 c6 *"])
+     (-> (a-game)
+         (played-on "2021.10.05")
+         (between-white "Nicky Chorley")
+         (and-black "David Walker")
+         (with-result "0-1")
+         as-pgn)
      "chorley-walker.pgn"
      games-directory)
 
     (add-game
-     (string/join
-      "\n"
-      ["[Event \"Harrow Swiss\"]"
-       "[Date \"2021.10.12\"]"
-       "[White \"Patrick Sartain\"]"
-       "[Black \"Nicky Chorley\"]"
-       "[Result \"1-0\"]"
-       "1. e4 e6 2. d4 d5 *"])
+     (-> (a-game)
+         (played-on "2021.10.12")
+         (between-white "Patrick Sartain")
+         (and-black "Nicky Chorley")
+         (with-result "1-0")
+         as-pgn)
      "sartain-chorley.pgn"
      games-directory)
 
     (add-game
-     (string/join
-      "\n"
-      ["[Event \"Harrow Swiss\"]"
-       "[Date \"2021.10.01\"]"
-       "[White \"James Lyons\"]"
-       "[Black \"Nicky Chorley\"]"
-       "[Result \"1/2-1/2\"]"
-       "1. d4 d5 2. e4 e6*"])
+     (-> (a-game)
+         (played-on "2021.10.01")
+         (between-white "James Lyons")
+         (and-black "Nicky Chorley")
+         (with-result "1/2-1/2")
+         as-pgn)
      "lyons-chorley.pgn"
      games-directory)
 
@@ -80,41 +77,32 @@
 
   (let [games-directory (create-directory)]
     (add-game
-     (string/join
-      "\n"
-      ["[Event \"Golders Green Rapidplay\"]"
-       "[Date \"2021.08.14\"]"
-       "[Round \"1\"]"
-       "[White \"Nicky Chorley\"]"
-       "[Black \"David Everitt\"]"
-       "[Result \"0-1\"]"
-       "1. d4 d5 2. c4 c6 *"])
+     (-> (a-game)
+         (played-on "2021.08.14")
+         (in-round "1")
+         (between-white "Nicky Chorley")
+         (and-black "David Everitt")
+         as-pgn)
      "chorley-everitt.pgn"
      games-directory)
 
     (add-game
-     (string/join
-      "\n"
-      ["[Event \"Golders Green Rapidplay\"]"
-       "[Date \"2021.08.14\"]"
-       "[Round \"2\"]"
-       "[White \"James Baxter\"]"
-       "[Black \"Nicky Chorley\"]"
-       "[Result \"1-0\"]"
-       "1. e4 e6 2. d4 d5 *"])
+     (-> (a-game)
+         (played-on "2021.08.14")
+         (in-round "2")
+         (between-white "James Baxter")
+         (and-black "Nicky Chorley")
+         as-pgn)
      "baxter-chorley.pgn"
      games-directory)
 
     (add-game
-     (string/join
-      "\n"
-      ["[Event \"Golders Green Rapidplay\"]"
-       "[Date \"2021.08.14\"]"
-       "[Round \"3\"]"
-       "[White \"Nicky Chorley\"]"
-       "[Black \"Charles Dabbs\"]"
-       "[Result \"0-1\"]"
-       "1. d4 Nf6 2. c4 e6 *"])
+     (-> (a-game)
+         (played-on "2021.08.14")
+         (in-round "3")
+         (between-white "Nicky Chorley")
+         (and-black "Charles Dabbs")
+         as-pgn)
      "chorley-dabbs.pgn"
      games-directory)
 
@@ -158,3 +146,35 @@
 
 (defn- third [collection]
   (nth collection 2))
+
+(defn- a-game []
+  {:event "Harrow Swiss"
+   :round "1"
+   :result "1-0"
+   :moves "1. d4 d5 2. e4 e6 *"})
+
+(defn- played-on [game date]
+  (assoc game :date date))
+
+(defn- in-round [game round]
+  (assoc game :round round))
+
+(defn- between-white [game white]
+  (assoc game :white white))
+
+(defn- and-black [game black]
+  (assoc game :black black))
+
+(defn- with-result [game result]
+  (assoc game :result result))
+
+(defn- as-pgn [game]
+  (string/join
+   "\n"
+   [(str "[Event \"" (game :event) "\"]")
+    (str "[Date \"" (game :date) "\"]")
+    (str "[Round \"" (game :round) "\"]")
+    (str "[White \"" (game :white) "\"]")
+    (str "[Black \"" (game :black) "\"]")
+    (str "[Result \"" (game :result) "\"]")
+    (game :moves)]))
