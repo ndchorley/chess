@@ -7,18 +7,17 @@
    [chess.routes :as routes]
    [chess.filesystem :refer :all]
    [chess.setup :refer :all]
+   [chess.game-builder :refer :all]
    [java-time])
   (:import org.jsoup.Jsoup))
 
 (declare
- page dates games white black result third
- a-game played-on between-white and-black
- with-result as-pgn in-round)
+ page dates games white black result third)
 
 (deftest the-timeline-lists-games-by-date-descending
   (let [games-directory (create-directory)]
     (add-game
-     (-> (a-game)
+     (-> a-game
          (played-on "2021.10.05")
          (between-white "Nicky Chorley")
          (and-black "David Walker")
@@ -28,7 +27,7 @@
      games-directory)
 
     (add-game
-     (-> (a-game)
+     (-> a-game
          (played-on "2021.10.12")
          (between-white "Patrick Sartain")
          (and-black "Nicky Chorley")
@@ -38,7 +37,7 @@
      games-directory)
 
     (add-game
-     (-> (a-game)
+     (-> a-game
          (played-on "2021.10.01")
          (between-white "James Lyons")
          (and-black "Nicky Chorley")
@@ -77,7 +76,7 @@
 
   (let [games-directory (create-directory)]
     (add-game
-     (-> (a-game)
+     (-> a-game
          (played-on "2021.08.14")
          (in-round "1")
          (between-white "Nicky Chorley")
@@ -87,7 +86,7 @@
      games-directory)
 
     (add-game
-     (-> (a-game)
+     (-> a-game
          (played-on "2021.08.14")
          (in-round "2")
          (between-white "James Baxter")
@@ -97,7 +96,7 @@
      games-directory)
 
     (add-game
-     (-> (a-game)
+     (-> a-game
          (played-on "2021.08.14")
          (in-round "3")
          (between-white "Nicky Chorley")
@@ -146,35 +145,3 @@
 
 (defn- third [collection]
   (nth collection 2))
-
-(defn- a-game []
-  {:event "Harrow Swiss"
-   :round "1"
-   :result "1-0"
-   :moves "1. d4 d5 2. e4 e6 *"})
-
-(defn- played-on [game date]
-  (assoc game :date date))
-
-(defn- in-round [game round]
-  (assoc game :round round))
-
-(defn- between-white [game white]
-  (assoc game :white white))
-
-(defn- and-black [game black]
-  (assoc game :black black))
-
-(defn- with-result [game result]
-  (assoc game :result result))
-
-(defn- as-pgn [game]
-  (string/join
-   "\n"
-   [(str "[Event \"" (game :event) "\"]")
-    (str "[Date \"" (game :date) "\"]")
-    (str "[Round \"" (game :round) "\"]")
-    (str "[White \"" (game :white) "\"]")
-    (str "[Black \"" (game :black) "\"]")
-    (str "[Result \"" (game :result) "\"]")
-    (game :moves)]))
