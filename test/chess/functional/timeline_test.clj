@@ -74,10 +74,11 @@
 (deftest
   games-played-on-the-same-day-are-grouped-and-listed-by-round-descending
 
-  (let [games-directory (create-directory)]
+  (let [games-directory (create-directory)
+        event-date "2021.08.14"]
     (add-game
      (-> a-game
-         (played-on "2021.08.14")
+         (played-on event-date)
          (in-round "1")
          (between-white "Nicky Chorley")
          (and-black "David Everitt")
@@ -87,7 +88,7 @@
 
     (add-game
      (-> a-game
-         (played-on "2021.08.14")
+         (played-on event-date)
          (in-round "2")
          (between-white "James Baxter")
          (and-black "Nicky Chorley")
@@ -97,7 +98,7 @@
 
     (add-game
      (-> a-game
-         (played-on "2021.08.14")
+         (played-on event-date)
          (in-round "3")
          (between-white "Nicky Chorley")
          (and-black "Charles Dabbs")
