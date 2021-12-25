@@ -18,6 +18,4 @@
 
 (deftest the-timeline-is-reachable
   (is
-   (=
-    (title (page "http://localhost:9400/timeline"))
-    "Timeline")))
+   (= "Timeline" (title (page "http://localhost:9400/timeline")))))
