@@ -7,13 +7,10 @@
    [chess.routes :as routes]
    [chess.lib :refer :all]
    [chess.filesystem :refer :all]
+   [chess.functional.page :refer :all]
    [chess.integration.filesystem.setup :refer :all]
    [chess.game-builder :refer :all]
-   [java-time])
-  (:import org.jsoup.Jsoup))
-
-(declare
- page dates games white black result)
+   [java-time]))
 
 (deftest the-timeline-lists-games-by-date-descending
   (let [games-directory (create-directory)]
@@ -124,23 +121,3 @@
 
       (is (= "Nicky Chorley" (white (third (games timeline)))))
       (is (= "David Everitt" (black (third (games timeline))))))))
-
-(defn- page [response]
-  (Jsoup/parse (response :body)))
-
-(defn- dates [timeline]
-  (map
-   (fn [element] (.text element))
-   (.select timeline ".date")))
-
-(defn- games [timeline]
-  (.select timeline ".game"))
-
-(defn- white [game]
-  (.text (.selectFirst game ".white")))
-
-(defn- black [game]
-  (.text (.selectFirst game ".black")))
-
-(defn- result [game]
-  (.text (.selectFirst game ".result")))
