@@ -5,13 +5,12 @@
 
 (declare dates adjacent-pairs)
 
-(defn games-are-returned-by-date-descending-from [get-games]
+(defn games-are-returned-by-date-descending-from [games]
   (deftest games-are-returned-by-date-descending
-    (let [games (get-games)]
-      (run!
-       (fn [pair]
-         (is (java-time/after? (first pair) (second pair))))
-       (adjacent-pairs (dates games))))))
+    (run!
+     (fn [pair]
+       (is (java-time/after? (first pair) (second pair))))
+     (adjacent-pairs (dates (games))))))
 
 (defn- dates [games] (map :date games))
 
