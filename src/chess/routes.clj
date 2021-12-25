@@ -5,18 +5,7 @@
    [clojure.string :as str]
    [java-time]))
 
-(declare
- links link-text result-text date-sections game-rows)
-
-(defn homepage []
-  (page/html5
-   [:body
-    [:a {:href "/events"} "Events"]]))
-
-(defn events-page [events]
-  (page/html5
-   [:body (links (events))]))
-
+(declare result-text date-sections game-rows)
 
 (defn timeline [games]
   (GET
@@ -65,22 +54,6 @@
          (result-text (game :result))]
         [:div {:class "col black"} (game :black)]])
      sorted-by-round)))
-
-(defn- links [events]
-  (map
-   (fn [event]
-     [:a
-      {:href (str "/events/" (event :slug))}
-      (link-text event)])
-   events))
-
-(defn- link-text [event]
-  (str/join
-   ", "
-   [(event :name)
-    (java-time/format
-     "d MMMM uuuu"
-     (event :date))]))
 
 (defn- result-text [result]
   (cond

@@ -3,19 +3,15 @@
    [ring.adapter.jetty :refer [run-jetty]]
    [compojure.core :refer :all]
    [chess.routes :refer :all]
-   [chess.events :refer [find-events]]
    [chess.filesystem :as filesystem])
   (:gen-class))
 
 (defn create-app [config]
   (routes
-   (GET "/" [] (homepage))
-   (timeline (partial filesystem/games-in (config :games-directory)))
-   (GET "/events" []
-        (events-page
-         (partial
-          find-events
-          (config :events-directory))))))
+   (timeline
+    (partial
+     filesystem/games-in
+     (config :games-directory)))))
 
 (defn start-app [config]
   (run-jetty (create-app config) config))
