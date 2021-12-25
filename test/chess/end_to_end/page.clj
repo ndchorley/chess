@@ -1,4 +1,4 @@
-(ns chess.page
+(ns chess.end-to-end.page
   (:import org.jsoup.Jsoup))
 
 (defn page [url]
