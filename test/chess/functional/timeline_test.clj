@@ -8,6 +8,7 @@
    [chess.lib :refer :all]
    [chess.filesystem :refer :all]
    [chess.setup :refer :all]
+   [chess.integration.filesystem.setup :refer :all]
    [chess.game-builder :refer :all]
    [java-time])
   (:import org.jsoup.Jsoup))
