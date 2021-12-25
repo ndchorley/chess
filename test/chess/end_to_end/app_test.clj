@@ -1,4 +1,4 @@
-(ns chess.core-test
+(ns chess.end-to-end.app-test
   (:require
    [clojure.test :refer :all]
    [chess.core :refer :all]
