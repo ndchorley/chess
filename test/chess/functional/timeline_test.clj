@@ -1,16 +1,13 @@
 (ns chess.functional.timeline-test
   (:require
    [clojure.test :refer :all]
-   [clojure.string :as string]
    [ring.mock.request :as mock]
-   [chess.core :refer :all]
    [chess.routes :as routes]
    [chess.lib :refer :all]
    [chess.filesystem :refer :all]
    [chess.functional.page :refer :all]
    [chess.integration.filesystem.setup :refer :all]
-   [chess.game-builder :refer :all]
-   [java-time]))
+   [chess.game-builder :refer :all]))
 
 (deftest the-timeline-lists-games-by-date-descending
   (let [games-directory (create-directory)]
