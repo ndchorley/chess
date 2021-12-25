@@ -74,21 +74,13 @@
 
 (let [games-directory (create-directory)]
   (add-game
-   (-> a-game
-       (played-on "1984.08.06")
-       (between-white "Anand")
-       (and-black "Dreev")
-       as-pgn)
-   "anand-dreev.pgn"
+   (-> a-game (played-on "1984.08.06") as-pgn)
+   "1984.pgn"
    games-directory)
 
   (add-game
-   (-> a-game
-       (played-on "2021.10.03")
-       (between-white "Carlsen")
-       (and-black "Aronian")
-       as-pgn)
-   "carlsen-aronian.pgn"
+   (-> a-game (played-on "2021.10.03") as-pgn)
+   "2021.pgn"
    games-directory)
 
   (chess.contracts.games/games-are-returned-by-date-descending-from

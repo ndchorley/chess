@@ -6,6 +6,8 @@
   {:event "Harrow Swiss"
    :round "1"
    :result "1-0"
+   :white "Jennifer Goldsmith"
+   :black "Nicky Chorley"
    :moves "1. d4 d5 2. e4 e6 *"})
 
 (defn played-on [game date]
