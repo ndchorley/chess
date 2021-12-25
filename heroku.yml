@@ -5,5 +5,4 @@ build:
     web: Dockerfile
 setup:
   config:
-    GAMES_DIRECTORY: /events
-    EVENTS_DIRECTORY: /events
+    GAMES_DIRECTORY: /games

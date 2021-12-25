@@ -20,5 +20,4 @@
   (start-app
    {:port (Integer/parseInt (System/getenv "PORT"))
     :join? true
-    :events-directory (System/getenv "EVENTS_DIRECTORY")
     :games-directory (System/getenv "GAMES_DIRECTORY")}))

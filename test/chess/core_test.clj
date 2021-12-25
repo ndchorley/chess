@@ -3,15 +3,15 @@
    [clojure.test :refer :all]
    [chess.core :refer :all]
    [chess.page :refer :all]
-   [chess.setup :refer :all])
-  (:import java.io.File))
+   [chess.setup :refer :all]))
 
-(def events-directory (create-directory))
+(def games-directory (create-directory))
 
 (defn setup [test]
   (start-app
-   {:port 9400 :join? false :events-directory events-directory
-    :games-directory events-directory})
+   {:port 9400
+    :join? false
+    :games-directory games-directory})
   (test))
 
 (use-fixtures :once setup)
