@@ -93,10 +93,7 @@
      "r4-fenton.fen"
      games-directory)
 
-    (is
-     (=
-      (filesystem/games-in games-directory)
-      []))))
+    (is (empty? (filesystem/games-in games-directory)))))
 
 (defn- add-file [contents file-name directory]
   (let [file (io/file directory file-name)]
