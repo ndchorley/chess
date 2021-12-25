@@ -1,14 +1,12 @@
 (ns chess.integration.filesystem.games-test
   (:require
-   [clojure.java.io :as io]
    [clojure.test :refer :all]
    [chess.setup :refer :all]
    [chess.game-builder :refer :all]
    [chess.filesystem :as filesystem]
+   [chess.integration.filesystem.setup :refer :all]
    [chess.contracts.games]
    [java-time]))
-
-(declare add-file)
 
 (deftest
   games-are-found-at-all-levels-within-the-configured-directory
@@ -94,7 +92,3 @@
      games-directory)
 
     (is (empty? (filesystem/games-in games-directory)))))
-
-(defn- add-file [contents file-name directory]
-  (let [file (io/file directory file-name)]
-    (spit file contents)))
