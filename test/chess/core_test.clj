@@ -3,7 +3,7 @@
    [clojure.test :refer :all]
    [chess.core :refer :all]
    [chess.page :refer :all]
-   [chess.setup :refer :all]))
+   [chess.integration.filesystem.setup :refer :all]))
 
 (def games-directory (create-directory))
 

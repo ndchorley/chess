@@ -1,7 +1,6 @@
 (ns chess.integration.filesystem.games-test
   (:require
    [clojure.test :refer :all]
-   [chess.setup :refer :all]
    [chess.game-builder :refer :all]
    [chess.filesystem :as filesystem]
    [chess.integration.filesystem.setup :refer :all]
