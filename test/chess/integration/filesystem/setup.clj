@@ -3,9 +3,7 @@
   (:import
    java.nio.file.Files
    java.nio.file.attribute.PosixFilePermission
-   java.nio.file.attribute.PosixFilePermissions
-   java.nio.file.Path
-   java.io.File))
+   java.nio.file.attribute.PosixFilePermissions))
 
 (declare posix-file-permissions)
 
