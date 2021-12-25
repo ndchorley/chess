@@ -5,6 +5,7 @@
    [ring.mock.request :as mock]
    [chess.core :refer :all]
    [chess.routes :as routes]
+   [chess.lib :refer :all]
    [chess.filesystem :refer :all]
    [chess.setup :refer :all]
    [chess.game-builder :refer :all]
@@ -12,7 +13,7 @@
   (:import org.jsoup.Jsoup))
 
 (declare
- page dates games white black result third)
+ page dates games white black result)
 
 (deftest the-timeline-lists-games-by-date-descending
   (let [games-directory (create-directory)]
@@ -143,6 +144,3 @@
 
 (defn- result [game]
   (.text (.selectFirst game ".result")))
-
-(defn- third [collection]
-  (nth collection 2))
