@@ -1,9 +1,9 @@
 (ns chess.integration.filesystem.games-test
   (:require
    [clojure.java.io :as io]
-   [clojure.string :as string]
    [clojure.test :refer :all]
    [chess.setup :refer :all]
+   [chess.game-builder :refer :all]
    [chess.filesystem :as filesystem]
    [chess.contracts.games]
    [java-time]))
@@ -15,43 +15,34 @@
 
   (let [games-directory (create-directory)]
     (add-game
-     (string/join
-      "\n"
-      ["[Event \"Meltwater\"]"
-       "[Date \"2021.10.03\"]"
-       "[White \"Carlsen\"]"
-       "[Black \"Aronian\"]"
-       "[Result \"0-1\"]"
-       "1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. a3 Bxc3+ 5. bxc3 b6 *"]
-      )
+     (-> a-game
+         (played-on "2021.10.03")
+         (between-white "Carlsen")
+         (and-black "Aronian")
+         (with-result "0-1")
+         as-pgn)
      "carlsen-aronian.pgn"
      games-directory)
 
     (add-game
-     (string/join
-      "\n"
-      ["[Event \"Simul\"]"
-       "[Date \"1924.10.11\"]"
-       "[White \"Capablanca\"]"
-       "[Black \"Shipley\"]"
-       "[Result \"1-0\"]"
-       "1. e4 e6 2. d4 d5 3. Nc3 Nf6 4. Bg5 Bb4 *"]
-      )
+     (-> a-game
+         (played-on "1924.10.11")
+         (between-white "Capablanca")
+         (and-black "Shipley")
+         (with-result "1-0")
+         as-pgn)
      "endgame-vs-shipley.pgn"
      games-directory
      "champions"
      "capablanca")
 
     (add-game
-     (string/join
-      "\n"
-      ["[Event \"Harrow Swiss\"]"
-       "[Date \"2021.11.25\"]"
-       "[White \"James Lyons\"]"
-       "[Black \"Nicky Chorley\"]"
-       "[Result \"1/2-1/2\"]"
-       "1. d4 d5 2. e4 e6 3. exd5 exd5 *"]
-      )
+     (-> a-game
+         (played-on "2021.11.25")
+         (between-white "James Lyons")
+         (and-black "Nicky Chorley")
+         (with-result "1/2-1/2")
+         as-pgn)
      "r2-lyons.pgn"
      games-directory
      "mine"
@@ -83,26 +74,20 @@
 
 (let [games-directory (create-directory)]
   (add-game
-   (string/join
-    "\n"
-    ["[Event \"U20 World Championship\"]"
-     "[Date \"1984.08.06\"]"
-     "[White \"Anand\"]"
-     "[Black \"Dreev\"]"
-     "[Result \"1/2-1/2\"]"
-     "1.e4 e6 2.d4 d5 3.Nd2 Nf6 4.e5 Nfd7 *"])
+   (-> a-game
+       (played-on "1984.08.06")
+       (between-white "Anand")
+       (and-black "Dreev")
+       as-pgn)
    "anand-dreev.pgn"
    games-directory)
 
   (add-game
-   (string/join
-    "\n"
-    ["[Event \"Meltwater\"]"
-     "[Date \"2021.10.03\"]"
-     "[White \"Carlsen\"]"
-     "[Black \"Aronian\"]"
-     "[Result \"0-1\"]"
-     "1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. a3 Bxc3+ 5. bxc3 b6 *"])
+   (-> a-game
+       (played-on "2021.10.03")
+       (between-white "Carlsen")
+       (and-black "Aronian")
+       as-pgn)
    "carlsen-aronian.pgn"
    games-directory)
 
