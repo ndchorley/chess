@@ -52,7 +52,8 @@
         [:div
          {:class "col result"}
          (result-text (game :result))]
-        [:div {:class "col black"} (game :black)]])
+        [:div {:class "col black"} (game :black)]
+        [:div [:a "View game"]]])
      sorted-by-round)))
 
 (defn- result-text [result]

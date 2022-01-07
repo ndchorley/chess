@@ -118,3 +118,21 @@
 
       (is (= "Nicky Chorley" (white (third (games timeline)))))
       (is (= "David Everitt" (black (third (games timeline))))))))
+
+(deftest a-game-has-a-link-to-view-it
+  (let [games-directory (create-directory)]
+    (add-game
+     (-> a-game as-pgn)
+     "chorley-goldsmith.pgn"
+     games-directory
+     "harrow-swiss"
+     "2021")
+
+    (let [timeline-handler
+          (routes/timeline
+           (partial games-in games-directory))
+
+          timeline (page
+                    (timeline-handler (mock/request :get "/timeline")))]
+
+      (is (= "View game" (text (link (first (games timeline)))))))))

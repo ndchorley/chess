@@ -5,6 +5,7 @@
 (def a-game
   {:event "Harrow Swiss"
    :round "1"
+   :date "2021.10.24"
    :result "1-0"
    :white "Jennifer Goldsmith"
    :black "Nicky Chorley"

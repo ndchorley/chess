@@ -20,3 +20,7 @@
 
 (defn result [game]
   (.text (.selectFirst game ".result")))
+
+(defn link [game] (.selectFirst game "a"))
+
+(defn text [link] (.text link))
