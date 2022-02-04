@@ -59,23 +59,23 @@
          (timeline-route
           (mock/request :get "/timeline")))]
 
-    (is (= "12 October 2021" (first (dates timeline))))
+    (is (= (first (dates timeline)) "12 October 2021"))
 
-    (is (= "Patrick Sartain" (white (first (games timeline)))))
-    (is (= "1-0" (result (first (games timeline)))))
-    (is (= "Nicky Chorley" (black (first (games timeline)))))
+    (is (= (white (first (games timeline))) "Patrick Sartain"))
+    (is (= (result (first (games timeline))) "1-0"))
+    (is (= (black (first (games timeline))) "Nicky Chorley"))
 
-    (is (= "5 October 2021" (second (dates timeline))))
+    (is (= (second (dates timeline)) "5 October 2021"))
 
-    (is (= "Nicky Chorley" (white (second (games timeline)))))
-    (is (= "0-1" (result (second (games timeline)))))
-    (is (= "David Walker" (black (second (games timeline)))))
+    (is (= (white (second (games timeline))) "Nicky Chorley"))
+    (is (= (result (second (games timeline))) "0-1"))
+    (is (= (black (second (games timeline))) "David Walker"))
 
-    (is (= "1 October 2021" (third (dates timeline))))
+    (is (= (third (dates timeline)) "1 October 2021"))
 
-    (is (= "James Lyons" (white (third (games timeline)))))
-    (is (= "1/2-1/2" (result (third (games timeline)))))
-    (is (= "Nicky Chorley" (black (third (games timeline)))))))
+    (is (= (white (third (games timeline))) "James Lyons"))
+    (is (= (result (third (games timeline))) "1/2-1/2"))
+    (is (= (black (third (games timeline))) "Nicky Chorley"))))
 
 (deftest
   games-played-on-the-same-day-are-grouped-and-listed-by-round-descending
@@ -116,16 +116,16 @@
            (timeline-route
             (mock/request :get "/timeline")))]
 
-      (is (= 1 (count (dates timeline))))
+      (is (= (count (dates timeline)) 1))
 
-      (is (= "Nicky Chorley" (white (first (games timeline)))))
-      (is (= "Charles Dabbs" (black (first (games timeline)))))
+      (is (= (white (first (games timeline))) "Nicky Chorley"))
+      (is (= (black (first (games timeline))) "Charles Dabbs"))
 
-      (is (= "James Baxter" (white (second (games timeline)))))
-      (is (= "Nicky Chorley" (black (second (games timeline)))))
+      (is (= (white (second (games timeline))) "James Baxter"))
+      (is (= (black (second (games timeline))) "Nicky Chorley"))
 
-      (is (= "Nicky Chorley" (white (third (games timeline)))))
-      (is (= "David Everitt" (black (third (games timeline))))))))
+      (is (= (white (third (games timeline))) "Nicky Chorley"))
+      (is (= (black (third (games timeline))) "David Everitt")))))
 
 (deftest a-game-has-a-link-to-view-it
   (add-game
@@ -140,4 +140,4 @@
          (timeline-route
           (mock/request :get "/timeline")))]
 
-    (is (= "View game" (text (link (first (games timeline))))))))
+    (is (= (text (link (first (games timeline)))) "View game"))))
