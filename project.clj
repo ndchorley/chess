@@ -10,7 +10,7 @@
                  [clojure.java-time "0.3.3"]
                  [com.github.bhlangonijr/chesslib "1.3.3"]
                  [commons-io "2.11.0"]]
-  :plugins [[cider/cider-nrepl "0.27.3"]
+  :plugins [[cider/cider-nrepl "0.28.2"]
             [lein-eftest "0.5.9"]]
   :javac-options ["-target" "17" "-source" "17"]
   :min-lein-version "2.0.0"
