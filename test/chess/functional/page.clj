@@ -24,3 +24,5 @@
 (defn link [game] (.selectFirst game "a"))
 
 (defn text [link] (.text link))
+
+(defn url [link] (.attr link "href"))

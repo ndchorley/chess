@@ -55,19 +55,22 @@
            :black "Aronian"
            :date (java-time/local-date 2021 10 3)
            :result :black-won
-           :round 1}
+           :round 1
+           :path "/carlsen-aronian"}
 
           {:white "Capablanca"
            :black "Shipley"
            :date (java-time/local-date 1924 10 11)
            :result :white-won
-           :round 1}
+           :round 1
+           :path "/champions/capablanca/endgame-vs-shipley"}
 
           {:white "James Lyons"
            :black "Nicky Chorley"
            :date (java-time/local-date 2021 11 25)
            :result :draw
-           :round 1}})))))
+           :round 1
+           :path "/mine/harrow-swiss/2021/r2-lyons"}})))))
 
 (let [games-directory (create-directory)]
   (add-game

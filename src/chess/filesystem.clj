@@ -14,15 +14,25 @@
   (let [games (find-games directory)]
     (sort-by :date java-time/after? games)))
 
-(defn- find-games [directory]
-  (let [files (.listFiles (io/file directory))]
-    (flatten
-     (map
-      (fn [file]
-        (if (pgn? file)
-          (parse-game file)
-          (find-games (.getAbsolutePath file))))
-      files))))
+(defn- find-games [root-directory]
+  (defn find-games-in [directory]
+    (let [files (.listFiles (io/file directory))]
+      (flatten
+       (map
+        (fn [file]
+          (if (pgn? file)
+            (assoc
+             (parse-game file)
+             :path
+             (string/replace
+              (string/replace
+               (.getAbsolutePath file)
+               root-directory "")
+              ".pgn"
+              ""))
+            (find-games-in (.getAbsolutePath file))))
+        files))))
+  (find-games-in root-directory))
 
 (defn- parse-game [file]
   (let [holder (new PgnHolder (.getAbsolutePath file))]
@@ -32,7 +42,8 @@
        :black (.getName (.getBlackPlayer game))
        :result (parse-result (.getResult game))
        :date (parse-date (.getDate game))
-       :round (.getNumber (.getRound game))})))
+       :round (.getNumber (.getRound game))
+       })))
 
 (defn- parse-result [result]
   (cond

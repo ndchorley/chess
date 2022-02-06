@@ -140,4 +140,7 @@
          (timeline-route
           (mock/request :get "/timeline")))]
 
-    (is (= (text (link (first (games timeline)))) "View game"))))
+    (is (= (text (link (first (games timeline)))) "View game"))
+    (is (=
+         (url (link (first (games timeline))))
+         "/harrow-swiss/2021/chorley-goldsmith"))))
