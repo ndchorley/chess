@@ -8,7 +8,8 @@
    com.github.bhlangonijr.chesslib.game.GameResult))
 
 (declare
- find-games parse-game parse-result parse-date pgn?)
+ find-games parse-game parse-result parse-date pgn?
+ make-path)
 
 (defn games-in [directory]
   (let [games (find-games directory)]
@@ -23,13 +24,7 @@
           (if (pgn? file)
             (assoc
              (parse-game file)
-             :path
-             (string/replace
-              (string/replace
-               (.getAbsolutePath file)
-               root-directory "")
-              ".pgn"
-              ""))
+             :path (make-path file root-directory))
             (find-games-in (.getAbsolutePath file))))
         files))))
   (find-games-in root-directory))
@@ -58,3 +53,9 @@
   (and
    (.isFile file)
    (string/ends-with? (.getName file) ".pgn")))
+
+(defn- make-path [file root-directory]
+  (-> file
+      (.getAbsolutePath)
+      (string/replace root-directory "")
+      (string/replace ".pgn" "")))
