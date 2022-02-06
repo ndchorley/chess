@@ -8,7 +8,7 @@
                  [hiccup "1.0.5"]
                  [compojure "1.6.2"]
                  [clojure.java-time "0.3.3"]
-                 [com.github.bhlangonijr/chesslib "1.3.2"]
+                 [com.github.bhlangonijr/chesslib "1.3.3"]
                  [commons-io "2.11.0"]]
   :plugins [[cider/cider-nrepl "0.27.3"]
             [lein-eftest "0.5.9"]]
