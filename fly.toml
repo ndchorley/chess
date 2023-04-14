@@ -12,6 +12,7 @@ processes = []
 
 [env]
   PORT="8080"
+  GAMES_DIRECTORY="/games"
 
 [[services]]
   internal_port = 8080
