@@ -10,6 +10,9 @@ processes = []
 [build.args]
   GIT_REPO_URL="https://github.com/ndchorley/chess-games.git"
 
+[env]
+  PORT="8080"
+
 [[services]]
   internal_port = 8080
   processes = ["app"]
