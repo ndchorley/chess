@@ -1,6 +1,6 @@
 # fly.toml file generated for empty-butterfly-7978 on 2023-04-14T10:45:36+01:00
 
-app = "empty-butterfly-7978"
+app = "weathered-frost-4768"
 kill_signal = "SIGINT"
 kill_timeout = 5
 mounts = []
