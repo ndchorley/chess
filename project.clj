@@ -6,7 +6,7 @@
                  [ring/ring-mock "0.4.0"]
                  [org.jsoup/jsoup "1.14.3"]
                  [hiccup "1.0.5"]
-                 [compojure "1.6.2"]
+                 [compojure "1.7.0"]
                  [clojure.java-time "0.3.3"]
                  [com.github.bhlangonijr/chesslib "1.3.3"]
                  [commons-io "2.11.0"]]
