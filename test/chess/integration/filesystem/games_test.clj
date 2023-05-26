@@ -94,3 +94,12 @@
      games-directory)
 
     (is (empty? (filesystem/games-in games-directory)))))
+
+(deftest invalid-pgn-files-are-ignored
+  (let [games-directory (create-directory)]
+    (add-file
+     "NOT A VALID PGN"
+     "some-game.pgn"
+     games-directory)
+
+    (is (empty? (filesystem/games-in games-directory)))))

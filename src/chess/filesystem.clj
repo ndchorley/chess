@@ -18,27 +18,34 @@
 (defn- find-games [root-directory]
   (defn find-games-in [directory]
     (let [files (.listFiles (io/file directory))]
-      (flatten
-       (map
-        (fn [file]
-          (if (pgn? file)
-            (assoc
-             (parse-game file)
-             :path (make-path file root-directory))
-            (find-games-in (.getAbsolutePath file))))
-        files))))
+      (filter (fn [game] (not (nil? game)))
+              (flatten
+               (map
+                (fn [file]
+                  (if (pgn? file)
+                    (let [game (parse-game file)]
+                      (if (nil? game)
+                        nil
+                        (assoc
+                         (parse-game file)
+                         :path (make-path file root-directory))))
+                    (find-games-in (.getAbsolutePath file))))
+                files)))))
   (find-games-in root-directory))
 
 (defn- parse-game [file]
-  (let [holder (new PgnHolder (.getAbsolutePath file))]
-    (.loadPgn holder)
-    (let [game (first (.getGames holder))]
-      {:white (.getName (.getWhitePlayer game))
-       :black (.getName (.getBlackPlayer game))
-       :result (parse-result (.getResult game))
-       :date (parse-date (.getDate game))
-       :round (.getNumber (.getRound game))
-       })))
+  (try
+    (let [holder (new PgnHolder (.getAbsolutePath file))]
+      (.loadPgn holder)
+      (let [game (first (.getGames holder))]
+        {:white (.getName (.getWhitePlayer game))
+         :black (.getName (.getBlackPlayer game))
+         :result (parse-result (.getResult game))
+         :date (parse-date (.getDate game))
+         :round (.getNumber (.getRound game))
+         }))
+
+    (catch RuntimeException e nil)))
 
 (defn- parse-result [result]
   (cond
