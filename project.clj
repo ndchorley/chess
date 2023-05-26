@@ -1,8 +1,9 @@
 (defproject chess "0.1.0-SNAPSHOT"
   :repositories [["jitpack.io" "https://jitpack.io"]]
-  :dependencies [[org.clojure/clojure "1.10.3"]
-                 [ring/ring-core "1.9.5"]
-                 [ring/ring-jetty-adapter "1.9.5"]
+  :dependencies [
+                 [org.clojure/clojure "1.10.3"]
+                 [ring/ring-core "1.10.0"]
+                 [ring/ring-jetty-adapter "1.10.0"]
                  [ring/ring-mock "0.4.0"]
                  [org.jsoup/jsoup "1.16.1"]
                  [hiccup "1.0.5"]
