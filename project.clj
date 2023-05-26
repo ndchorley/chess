@@ -4,7 +4,7 @@
                  [ring/ring-core "1.9.5"]
                  [ring/ring-jetty-adapter "1.9.5"]
                  [ring/ring-mock "0.4.0"]
-                 [org.jsoup/jsoup "1.14.3"]
+                 [org.jsoup/jsoup "1.16.1"]
                  [hiccup "1.0.5"]
                  [compojure "1.7.0"]
                  [clojure.java-time "1.2.0"]
