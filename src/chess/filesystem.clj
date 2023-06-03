@@ -9,7 +9,7 @@
 
 (declare
  find-games parse-game parse-result parse-date pgn?
- make-path)
+ make-path valid?)
 
 (defn games-in [directory]
   (let [games (find-games directory)]
@@ -18,7 +18,7 @@
 (defn- find-games [root-directory]
   (defn find-games-in [directory]
     (let [files (.listFiles (io/file directory))]
-      (filter (fn [game] (not (nil? game)))
+      (filter valid?
               (flatten
                (map
                 (fn [file]
@@ -55,6 +55,8 @@
 
 (defn- parse-date [date]
   (java-time/local-date "yyyy.MM.dd" date))
+
+(defn- valid? [game] (not (nil? game)))
 
 (defn- pgn? [file]
   (and
