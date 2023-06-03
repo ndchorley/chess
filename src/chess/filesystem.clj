@@ -9,7 +9,7 @@
 
 (declare
  find-games parse-game parse-result parse-date pgn?
- make-path valid?)
+ make-path valid? files-in)
 
 (defn games-in [directory]
   (let [games (find-games directory)]
@@ -17,21 +17,22 @@
 
 (defn- find-games [root-directory]
   (defn find-games-in [directory]
-    (let [files (.listFiles (io/file directory))]
-      (filter valid?
-              (flatten
-               (map
-                (fn [file]
-                  (if (pgn? file)
-                    (let [game (parse-game file)]
-                      (if (nil? game)
-                        nil
-                        (assoc
-                         (parse-game file)
-                         :path (make-path file root-directory))))
-                    (find-games-in (.getAbsolutePath file))))
-                files)))))
+    (filter valid?
+            (flatten
+             (map
+              (fn [file]
+                (if (pgn? file)
+                  (let [game (parse-game file)]
+                    (if (nil? game)
+                      nil
+                      (assoc
+                       (parse-game file)
+                       :path (make-path file root-directory))))
+                  (find-games-in (.getAbsolutePath file))))
+              (files-in directory)))))
   (find-games-in root-directory))
+
+(defn- files-in [directory] (.listFiles (io/file directory)))
 
 (defn- parse-game [file]
   (try
