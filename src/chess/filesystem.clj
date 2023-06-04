@@ -30,16 +30,11 @@
             (recur files games))
 
           (pgn? file)
-          (let [game (parse-game file)]
+          (let [game (parse-game file directory)]
               (if (nil? game)
                 (recur files games)
 
-                (recur
-                 files
-                 (conj games
-                       (assoc
-                        game
-                        :path (make-path file directory))))))
+                (recur files (conj games game))))
 
           true (recur files games))))))
 
@@ -51,7 +46,7 @@
 (defn- files-in [directory]
   (into [] (.listFiles (io/file directory))))
 
-(defn- parse-game [file]
+(defn- parse-game [file directory]
   (try
     (let [holder (new PgnHolder (.getAbsolutePath file))]
       (.loadPgn holder)
@@ -61,7 +56,7 @@
          :result (parse-result (.getResult game))
          :date (parse-date (.getDate game))
          :round (.getNumber (.getRound game))
-         }))
+         :path (make-path file directory)}))
 
     (catch RuntimeException e nil)))
 
