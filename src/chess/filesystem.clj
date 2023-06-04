@@ -23,24 +23,25 @@
       games
 
       (let [file (.remove files)]
-        (if (.isDirectory file)
+        (cond
+          (.isDirectory file)
           (do
             (.addAll files (files-in file))
             (recur files games))
 
-          (if (pgn? file)
-            (let [game (parse-game file)]
+          (pgn? file)
+          (let [game (parse-game file)]
               (if (nil? game)
                 (recur files games)
 
                 (recur
                  files
                  (conj games
-                  (assoc
-                   (parse-game file)
+                       (assoc
+                        (parse-game file)
                         :path (make-path file root-directory))))))
 
-            (recur files games)))))))
+          true (recur files games))))))
 
 (defn- queue-of-files-in [directory]
   (doto
