@@ -38,7 +38,7 @@
                  files
                  (conj games
                        (assoc
-                        (parse-game file)
+                        game
                         :path (make-path file directory))))))
 
           true (recur files games))))))
