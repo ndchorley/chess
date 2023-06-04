@@ -16,23 +16,37 @@
     (sort-by :date java-time/after? games)))
 
 (defn- find-games [root-directory]
-  (defn find-games-in [directory]
-    (filter valid?
-            (flatten
-             (map
-              (fn [file]
-                (if (pgn? file)
-                  (let [game (parse-game file)]
-                    (if (nil? game)
-                      nil
-                      (assoc
-                       (parse-game file)
-                       :path (make-path file root-directory))))
-                  (find-games-in (.getAbsolutePath file))))
-              (files-in directory)))))
-  (find-games-in root-directory))
+  (loop [
+         files
+         (doto
+             (new java.util.concurrent.LinkedBlockingQueue)
+           (.addAll (files-in root-directory)))
+         games []]
+    (if (zero? (.size files))
+      games
 
-(defn- files-in [directory] (.listFiles (io/file directory)))
+      (let [file (.remove files)]
+        (if (.isDirectory file)
+          (do
+            (.addAll files (files-in file))
+            (recur files games))
+
+          (if (pgn? file)
+            (let [game (parse-game file)]
+              (if (nil? game)
+                (recur files games)
+
+                (recur
+                 files
+                 (conj games
+                  (assoc
+                   (parse-game file)
+                        :path (make-path file root-directory))))))
+
+            (recur files games)))))))
+
+(defn- files-in [directory]
+  (into [] (.listFiles (io/file directory))))
 
 (defn- parse-game [file]
   (try
