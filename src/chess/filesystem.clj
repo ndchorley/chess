@@ -15,9 +15,9 @@
   (let [games (find-games directory)]
     (sort-by :date java-time/after? games)))
 
-(defn- find-games [root-directory]
+(defn- find-games [directory]
   (loop [
-         files (queue-of-files-in root-directory)
+         files (queue-of-files-in directory)
          games []]
     (if (zero? (.size files))
       games
@@ -39,7 +39,7 @@
                  (conj games
                        (assoc
                         (parse-game file)
-                        :path (make-path file root-directory))))))
+                        :path (make-path file directory))))))
 
           true (recur files games))))))
 
