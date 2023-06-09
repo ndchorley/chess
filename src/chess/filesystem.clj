@@ -20,10 +20,10 @@
          files (queue-of-files-in directory)
          directories (queue-of directory)
          games []]
-    (if (zero? (.size files))
-      games
+    (cond
+      (zero? (.size files)) games
 
-      (let [file (.remove files)]
+      true (let [file (.remove files)]
         (cond
           (.isDirectory file)
           (do
