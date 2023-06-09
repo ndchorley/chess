@@ -9,7 +9,7 @@
 
 (declare
  find-games parse-game parse-result parse-date pgn?
- make-path valid? files-in queue-of-files-in)
+ make-path valid? files-in queue-of-files-in queue-of)
 
 (defn games-in [directory]
   (let [games (find-games directory)]
@@ -18,6 +18,7 @@
 (defn- find-games [directory]
   (loop [
          files (queue-of-files-in directory)
+         directories (queue-of directory)
          games []]
     (if (zero? (.size files))
       games
@@ -27,21 +28,27 @@
           (.isDirectory file)
           (do
             (.addAll files (files-in file))
-            (recur files games))
+            (.add directories file)
+            (recur files directories games))
 
           (pgn? file)
           (let [game (parse-game file directory)]
               (if (nil? game)
-                (recur files games)
+                (recur files directories games)
 
-                (recur files (conj games game))))
+                (recur files directories (conj games game))))
 
-          true (recur files games))))))
+          true (recur files directories games))))))
+
+(defn- queue-of [directory]
+  (doto
+      (new java.util.concurrent.LinkedBlockingQueue)
+      (.add directory)))
 
 (defn- queue-of-files-in [directory]
   (doto
       (new java.util.concurrent.LinkedBlockingQueue)
-    (.addAll (files-in directory))))
+      (.addAll (files-in directory))))
 
 (defn- files-in [directory]
   (into [] (.listFiles (io/file directory))))
