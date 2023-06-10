@@ -49,7 +49,6 @@
     (let [games (filesystem/games-in games-directory)]
       (is
        (=
-        (into #{} games)
         #{
           {:white "Carlsen"
            :black "Aronian"
@@ -70,7 +69,8 @@
            :date (java-time/local-date 2021 11 25)
            :result :draw
            :round 1
-           :path "/mine/harrow-swiss/2021/r2-lyons"}})))))
+           :path "/mine/harrow-swiss/2021/r2-lyons"}}
+        (into #{} games))))))
 
 (let [games-directory (create-directory)]
   (add-game
