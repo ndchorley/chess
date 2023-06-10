@@ -18,28 +18,34 @@
 
 (defn- find-games [directory]
   (loop [
-         files (queue-of-files-and-directories-in directory)
+         files-and-directories
+         (queue-of-files-and-directories-in directory)
+
          directories (queue-of directory)
          games []]
     (cond
-      (zero? (.size files)) games
+      (zero? (.size files-and-directories)) games
 
-      true (let [file (.remove files)]
+      true (let [file (.remove files-and-directories)]
         (cond
           (.isDirectory file)
           (do
-            (.addAll files (files-and-directories-in file))
+            (.addAll files-and-directories
+                     (files-and-directories-in file))
             (.add directories file)
-            (recur files directories games))
+            (recur files-and-directories directories games))
 
           (pgn? file)
           (let [game (parse-game file directory)]
               (if (nil? game)
-                (recur files directories games)
+                (recur files-and-directories directories games)
 
-                (recur files directories (conj games game))))
+                (recur
+                 files-and-directories
+                 directories
+                 (conj games game))))
 
-          true (recur files directories games))))))
+          true (recur files-and-directories directories games))))))
 
 (defn- queue-of [directory]
   (doto
