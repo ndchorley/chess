@@ -10,8 +10,7 @@
 (declare
  find-games parse-game parse-result parse-date pgn?
  make-path valid? files-and-directories-in
- queue-of-files-and-directories-in queue-of
- only-files only-directories)
+ queue-of only-files only-directories)
 
 (defn games-in [directory]
   (let [games (find-games directory)]
@@ -56,11 +55,6 @@
   (doto
       (new java.util.concurrent.LinkedBlockingQueue)
       (.add directory)))
-
-(defn- queue-of-files-and-directories-in [directory]
-  (doto
-      (new java.util.concurrent.LinkedBlockingQueue)
-      (.addAll (files-and-directories-in directory))))
 
 (defn- files-and-directories-in [directory]
   (into [] (.listFiles (io/file directory))))
