@@ -17,9 +17,8 @@
   (let [games (find-games directory)]
     (sort-by :date java-time/after? games)))
 
-(defn- find-games [directory]
-  (loop [
-         directories (queue-of directory)
+(defn- find-games [root-directory]
+  (loop [directories (queue-of root-directory)
          games []]
     (cond
       (zero? (.size directories)) games
@@ -33,11 +32,12 @@
             pgns (filter pgn? files)
             games-found
             (map
-             (fn [pgn] (parse-game pgn directory))
+             (fn [pgn] (parse-game pgn root-directory))
              pgns)
             valid-games (filter valid? games-found)
 
-            directories-found (only-directories files-and-directories)]
+            directories-found
+            (only-directories files-and-directories)]
         (do
           (.addAll directories directories-found)
           (recur directories (concat games valid-games)))))))
