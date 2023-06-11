@@ -59,7 +59,7 @@
 (defn- files-and-directories-in [directory]
   (into [] (.listFiles (io/file directory))))
 
-(defn- parse-game [file directory]
+(defn- parse-game [file root-directory]
   (try
     (let [holder (new PgnHolder (.getAbsolutePath file))]
       (.loadPgn holder)
@@ -69,7 +69,7 @@
          :result (parse-result (.getResult game))
          :date (parse-date (.getDate game))
          :round (.getNumber (.getRound game))
-         :path (make-path file directory)}))
+         :path (make-path file root-directory)}))
 
     (catch RuntimeException e nil)))
 
