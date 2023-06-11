@@ -10,7 +10,8 @@
 (declare
  find-games parse-game parse-result parse-date pgn?
  make-path valid? files-and-directories-in
- queue-of-files-and-directories-in queue-of)
+ queue-of-files-and-directories-in queue-of
+ only-files only-directories)
 
 (defn games-in [directory]
   (let [games (find-games directory)]
@@ -18,34 +19,38 @@
 
 (defn- find-games [directory]
   (loop [
-         files-and-directories
-         (queue-of-files-and-directories-in directory)
-
          directories (queue-of directory)
          games []]
     (cond
-      (zero? (.size files-and-directories)) games
+      (zero? (.size directories)) games
 
-      true (let [file (.remove files-and-directories)]
-        (cond
-          (.isDirectory file)
-          (do
-            (.addAll files-and-directories
-                     (files-and-directories-in file))
-            (.add directories file)
-            (recur files-and-directories directories games))
+      true
+      (let [current-directory (.remove directories)
+            files-and-directories
+            (files-and-directories-in current-directory)
 
-          (pgn? file)
-          (let [game (parse-game file directory)]
-              (if (nil? game)
-                (recur files-and-directories directories games)
+            files (only-files files-and-directories)
+            pgns (filter pgn? files)
+            games-found
+            (map
+             (fn [pgn] (parse-game pgn directory))
+             pgns)
+            valid-games (filter valid? games-found)
 
-                (recur
-                 files-and-directories
-                 directories
-                 (conj games game))))
+            directories-found (only-directories files-and-directories)]
+        (do
+          (.addAll directories directories-found)
+          (recur directories (concat games valid-games)))))))
 
-          true (recur files-and-directories directories games))))))
+(defn- only-files [files-and-directories]
+  (filter
+   (fn [file-or-directory] (.isFile file-or-directory))
+   files-and-directories))
+
+(defn- only-directories [files-and-directories]
+  (filter
+   (fn [file-or-directory] (.isDirectory file-or-directory))
+   files-and-directories))
 
 (defn- queue-of [directory]
   (doto
