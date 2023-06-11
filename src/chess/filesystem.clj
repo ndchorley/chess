@@ -53,7 +53,7 @@
 
 (defn- queue-of [directory]
   (doto
-      (new java.util.concurrent.LinkedBlockingQueue)
+      (new java.util.LinkedList)
       (.add directory)))
 
 (defn- files-and-directories-in [directory]
