@@ -11,7 +11,7 @@
  find-games parse-game parse-result parse-date pgn?
  make-path valid? files-and-directories-in
  queue-of only-directories only-pgns
- parse-games-with-root-directory)
+ parse-games-with-root-directory pgns-in)
 
 (defn games-in [directory]
   (let [games (find-games directory)]
@@ -35,8 +35,8 @@
 
               games-found
               (->
-               files-and-directories
-               only-pgns
+               directory-to-look-in
+               pgns-in
                parse-games)
 
               directories-found
@@ -51,6 +51,12 @@
          (fn [pgn] (parse-game pgn root-directory))
          pgns)]
     (filter valid? games-found)))
+
+(defn- pgns-in [directory]
+  (->
+   directory
+   files-and-directories-in
+   only-pgns))
 
 (defn- only-pgns [files] (filter pgn? files))
 
