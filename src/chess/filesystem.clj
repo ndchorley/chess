@@ -31,9 +31,12 @@
 
             parse-games (partial parse-games root-directory)
 
-            files (only-files files-and-directories)
-            pgns (only-pgns files)
-            games-found (parse-games pgns)
+            games-found
+            (->
+             files-and-directories
+             only-files
+             only-pgns
+             parse-games)
 
             directories-found
             (only-directories files-and-directories)]
