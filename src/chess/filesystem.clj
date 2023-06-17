@@ -18,35 +18,35 @@
     (sort-by :date java-time/after? games)))
 
 (defn- find-games [root-directory]
-  (loop [directories (queue-of root-directory)
-         games []]
-    (cond
-      (zero? (.size directories)) games
+  (let [parse-games
+        (partial
+         parse-games-with-root-directory
+         root-directory)]
 
-      true
-      (let [current-directory (.remove directories)
-            files-and-directories
-            (files-and-directories-in current-directory)
+    (loop [directories (queue-of root-directory)
+           games []]
+      (cond
+        (zero? (.size directories)) games
 
-            parse-games
-            (partial
-             parse-games-with-root-directory
-             root-directory)
+        true
+        (let [current-directory (.remove directories)
+              files-and-directories
+              (files-and-directories-in current-directory)
 
-            games-found
-            (->
-             files-and-directories
-             only-files
-             only-pgns
-             parse-games)
+              games-found
+              (->
+               files-and-directories
+               only-files
+               only-pgns
+               parse-games)
 
-            directories-found
-            (only-directories files-and-directories)]
-        (do
-          (.addAll directories directories-found)
-          (recur directories (concat games games-found)))))))
+              directories-found
+              (only-directories files-and-directories)]
+          (do
+            (.addAll directories directories-found)
+            (recur directories (concat games games-found))))))))
 
-(defn parse-games-with-root-directory [root-directory pgns]
+(defn- parse-games-with-root-directory [root-directory pgns]
   (let [games-found
         (map
          (fn [pgn] (parse-game pgn root-directory))
