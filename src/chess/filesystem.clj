@@ -10,7 +10,7 @@
 (declare
  find-games parse-game parse-result parse-date pgn?
  make-path valid? files-and-directories-in
- queue-of only-files only-directories only-pgns
+ queue-of only-directories only-pgns
  parse-games-with-root-directory)
 
 (defn games-in [directory]
@@ -36,7 +36,6 @@
               games-found
               (->
                files-and-directories
-               only-files
                only-pgns
                parse-games)
 
@@ -54,11 +53,6 @@
     (filter valid? games-found)))
 
 (defn- only-pgns [files] (filter pgn? files))
-
-(defn- only-files [files-and-directories]
-  (filter
-   (fn [file-or-directory] (.isFile file-or-directory))
-   files-and-directories))
 
 (defn- only-directories [files-and-directories]
   (filter
