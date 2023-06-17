@@ -34,19 +34,19 @@
             files (only-files files-and-directories)
             pgns (only-pgns files)
             games-found (parse-games pgns)
-            
-            valid-games (filter valid? games-found)
 
             directories-found
             (only-directories files-and-directories)]
         (do
           (.addAll directories directories-found)
-          (recur directories (concat games valid-games)))))))
+          (recur directories (concat games games-found)))))))
 
 (defn parse-games [root-directory pgns]
-  (map
-   (fn [pgn] (parse-game pgn root-directory))
-   pgns))
+  (let [games-found
+        (map
+         (fn [pgn] (parse-game pgn root-directory))
+         pgns)]
+    (filter valid? games-found)))
 
 (defn- only-pgns [files] (filter pgn? files))
 
