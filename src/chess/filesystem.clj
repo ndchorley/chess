@@ -29,9 +29,9 @@
         (zero? (.size directories)) games
 
         true
-        (let [current-directory (.remove directories)
+        (let [directory-to-look-in (.remove directories)
               files-and-directories
-              (files-and-directories-in current-directory)
+              (files-and-directories-in directory-to-look-in)
 
               games-found
               (->
