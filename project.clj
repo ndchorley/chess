@@ -10,7 +10,7 @@
                  [compojure "1.7.0"]
                  [clojure.java-time "1.2.0"]
                  [com.github.bhlangonijr/chesslib "1.3.3"]
-                 [commons-io "2.12.0"]]
+                 [commons-io "2.13.0"]]
   :plugins [
             [cider/cider-nrepl "0.30.0"]
             [lein-eftest "0.6.0"]]
